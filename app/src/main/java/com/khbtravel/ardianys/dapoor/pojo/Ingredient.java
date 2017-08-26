@@ -33,9 +33,9 @@ public class Ingredient implements Parcelable
     };
 
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(quantity);
-        dest.writeValue(measure);
-        dest.writeValue(ingredient);
+        dest.writeString(quantity);
+        dest.writeString(measure);
+        dest.writeString(ingredient);
     }
 
     public String getQuantity() {

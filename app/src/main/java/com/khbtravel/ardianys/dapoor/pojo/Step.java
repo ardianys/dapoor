@@ -9,14 +9,14 @@ import android.os.Parcelable;
 public class Step implements Parcelable
 {
 
-    private Integer id;
+    private String id;
     private String shortDescription;
     private String description;
     private String videoURL;
     private String thumbnailURL;
 
     public Step(Parcel in){
-        id = in.readInt();
+        id = in.readString();
         shortDescription = in.readString();
         description = in.readString();
         videoURL = in.readString();
@@ -36,18 +36,18 @@ public class Step implements Parcelable
     };
 
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(id);
-        dest.writeValue(shortDescription);
-        dest.writeValue(description);
-        dest.writeValue(videoURL);
-        dest.writeValue(thumbnailURL);
+        dest.writeString(id);
+        dest.writeString(shortDescription);
+        dest.writeString(description);
+        dest.writeString(videoURL);
+        dest.writeString(thumbnailURL);
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
