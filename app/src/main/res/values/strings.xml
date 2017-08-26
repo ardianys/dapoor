@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Dapoor</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="ingredient_item">1 Egg</string>
+</resources>
