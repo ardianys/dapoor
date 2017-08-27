@@ -22,13 +22,20 @@
         </activity>
         <activity android:name=".RecipeDetailActivity"
             android:label="Recipe Detail"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".RecipeStepActivity"></activity>
+        <activity android:name=".RecipeStepActivity"
+            android:label="Recipe Step"
+            android:parentActivityName=".RecipeDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RecipeDetailActivity" />
+        </activity>
     </application>
 
 </manifest>

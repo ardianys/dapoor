@@ -27,6 +27,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity  implements RecipeAdapter.ItemClickListener {
 
     public static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
+    public static final String INTENT_PARCEL_RECIPE = "PARCEL_RECIPE";
+    public static final String INTENT_PARCEL_STEP = "PARCEL_STEP";
 
     @BindView(R.id.rv_recipes)
     RecyclerView mRecyclerView;
@@ -80,16 +82,9 @@ public class MainActivity extends AppCompatActivity  implements RecipeAdapter.It
 
     @Override
     public void onRecipeClick(View view, int position) {
-
         Intent intentToStartDetailActivity = new Intent(this, RecipeDetailActivity.class);
-
-        Recipe recipe = mRecipeAdapter.getRecipe(position);
-
-        Parcelable recipeParcel = recipe;
-
-        intentToStartDetailActivity.putExtra("PARCEL_RECIPE", recipeParcel);
-
+        Parcelable recipeParcel = mRecipeAdapter.getRecipe(position);
+        intentToStartDetailActivity.putExtra(INTENT_PARCEL_RECIPE, recipeParcel);
         startActivity(intentToStartDetailActivity);
-
     }
 }
