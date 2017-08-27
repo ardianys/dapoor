@@ -83,8 +83,10 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepAdapt
     @Override
     public void onStepClick(View view, int position) {
         Intent intentToStartDetailActivity = new Intent(this, RecipeStepActivity.class);
-        Parcelable stepParcel = stepAdapter.getStep(position);
-        intentToStartDetailActivity.putExtra(MainActivity.INTENT_PARCEL_STEP, stepParcel);
+        Step step = stepAdapter.getStep(position);
+        step.setPosition(position);
+        intentToStartDetailActivity.putExtra(MainActivity.INTENT_PARCEL_RECIPE, recipe);
+        intentToStartDetailActivity.putExtra(MainActivity.INTENT_PARCEL_STEP, step);
         startActivity(intentToStartDetailActivity);
     }
 }
