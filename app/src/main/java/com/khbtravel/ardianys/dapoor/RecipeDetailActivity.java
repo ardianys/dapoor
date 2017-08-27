@@ -5,9 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.khbtravel.ardianys.dapoor.fragment.MasterListInterface;
+import com.khbtravel.ardianys.dapoor.fragment.RecipeDetailFragment;
+import com.khbtravel.ardianys.dapoor.fragment.RecipeStepFragment;
 import com.khbtravel.ardianys.dapoor.pojo.Ingredient;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 import com.khbtravel.ardianys.dapoor.pojo.Step;
@@ -18,15 +22,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeDetailActivity extends AppCompatActivity implements StepAdapter.ItemClickListener {
+public class RecipeDetailActivity extends AppCompatActivity
+        implements MasterListInterface {
 
-    @BindView(R.id.tv_recipe_ingredients)
-    TextView mTextViewIngredients;
-
-    @BindView(R.id.rv_steps)
-    RecyclerView mRecyclerViewSteps;
-
-    StepAdapter stepAdapter;
+    private Boolean mTabletMode = false;
 
     Recipe recipe;
 
@@ -34,20 +33,10 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
-        ButterKnife.bind(this);
-
-        mRecyclerViewSteps.setLayoutManager(new LinearLayoutManager(this));
-
-        stepAdapter = new StepAdapter(this);
-        stepAdapter.setClickListener(this);
-        mRecyclerViewSteps.setAdapter(stepAdapter);
-        mRecyclerViewSteps.setHasFixedSize(true);
-
 
         if (savedInstanceState != null) {
             recipe = savedInstanceState.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
         }
-
 
         // Get Intent and check for recipe ID that added in intent's extra
         Intent intent = getIntent();
@@ -57,32 +46,56 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepAdapt
             }
         }
 
-        String output = "";
-        ArrayList<Ingredient> ingredients = recipe.getIngredients();
-        for(int i=0; i< ingredients.size(); i++){
-            Ingredient ingredient = ingredients.get(i);
-            if (ingredient != null ){
-                output += ingredient.getQuantity() + " " +
-                        ingredient.getMeasure() + " " +
-                        ingredient.getIngredient() + "\n";
-            }
+        if(findViewById(R.id.recipe_step_container)!= null){
+            mTabletMode = true;
+            replaceFragment(0);
         }
-        mTextViewIngredients.setText(output);
-        stepAdapter.setSteps(recipe.getSteps());
+
+        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
+        bundle.putBoolean(RecipeListActivity.INTENT_BOOL_TABLET_MODE, mTabletMode);
+        recipeDetailFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.recipe_detail_container, recipeDetailFragment).
+                commit();
+
     }
 
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
+    public boolean isTablet() {
+        return mTabletMode;
     }
 
-    @Override
-    public void onStepClick(View view, int position) {
+    private void replaceFragment(int position) {
+        Bundle bundle = new Bundle();
+        Step step = recipe.getSteps().get(position);
+
+        bundle.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
+        bundle.putParcelable(RecipeListActivity.INTENT_PARCEL_STEP, step);
+        bundle.putBoolean(RecipeListActivity.INTENT_BOOL_TABLET_MODE, mTabletMode);
+
+        RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
+        recipeStepFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.recipe_step_container, recipeStepFragment).
+                commit();
+    }
+
+    private void launchStepActivity(int position) {
         Intent intentToStartDetailActivity = new Intent(this, RecipeStepActivity.class);
-        Step step = stepAdapter.getStep(position);
+        Step step = recipe.getSteps().get(position);
         step.setPosition(position);
         intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
         intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_STEP, step);
         startActivity(intentToStartDetailActivity);
+    }
+
+    @Override
+    public void handleClick(int position) {
+        if (isTablet()) {
+            replaceFragment(position);
+        }else{
+            launchStepActivity(position);
+        }
     }
 }

@@ -29,6 +29,7 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
     public static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
     public static final String INTENT_PARCEL_RECIPE = "PARCEL_RECIPE";
     public static final String INTENT_PARCEL_STEP = "PARCEL_STEP";
+    public static final String INTENT_BOOL_TABLET_MODE = "BOOL_TABLET_MODE";
 
     @BindView(R.id.rv_recipes)
     RecyclerView mRecyclerView;

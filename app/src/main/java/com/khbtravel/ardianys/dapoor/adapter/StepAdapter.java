@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.khbtravel.ardianys.dapoor.R;
+import com.khbtravel.ardianys.dapoor.fragment.MasterListInterface;
 import com.khbtravel.ardianys.dapoor.pojo.Step;
 
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     private ArrayList<Step> mStepsData;
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
+    private MasterListInterface mClickListener;
 
-    public StepAdapter(ItemClickListener itemClickListener) {
+    public StepAdapter(MasterListInterface itemClickListener) {
         mClickListener = itemClickListener;
     }
 
@@ -38,7 +39,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     }
 
     @Override
-    public void onBindViewHolder(StepViewHolder holder, int position) {
+    public void onBindViewHolder(StepViewHolder holder, final int position) {
         Step step = mStepsData.get(position);
         holder.mTvStepShortDescription.setText(step.getShortDescription());
     }
@@ -56,25 +57,22 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         public StepViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mClickListener.handleClick(getAdapterPosition());
+                }
+            });
         }
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onStepClick(view, getAdapterPosition());
+            if (mClickListener != null) mClickListener.handleClick(getAdapterPosition());
         }
     }
 
     public Step getStep(int id) {
         return mStepsData.get(id);
-    }
-
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onStepClick(View view, int position);
     }
 
     public void setSteps(ArrayList<Step> stepsData) {

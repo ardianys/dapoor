@@ -21,6 +21,8 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.khbtravel.ardianys.dapoor.fragment.RecipeDetailFragment;
+import com.khbtravel.ardianys.dapoor.fragment.RecipeStepFragment;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 import com.khbtravel.ardianys.dapoor.pojo.Step;
 import com.squareup.picasso.Picasso;
@@ -29,23 +31,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecipeStepActivity extends AppCompatActivity {
-
-    @BindView(R.id.b_next_step)
-    Button mButtonNext;
-
-    @BindView(R.id.b_previous_step)
-    Button mButtonPrevious;
-
-    SimpleExoPlayer mExoPlayer;
-
-    @BindView(R.id.ep_player_view)
-    SimpleExoPlayerView mPlayerView;
-
-    @BindView(R.id.tv_step_description)
-    TextView mTvDescription;
-
-    @BindView(R.id.iv_step_thumbnail)
-    ImageView mImageViewThumbnail;
 
     Recipe recipe;
     Step step;
@@ -56,7 +41,6 @@ public class RecipeStepActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_step);
-        ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
             recipe = savedInstanceState.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
@@ -74,95 +58,28 @@ public class RecipeStepActivity extends AppCompatActivity {
             }
         }
 
-        mTvDescription.setText(step.getDescription());
-        /**
-         * The step ID in API isn't using incremental value,
-         * we should add new variable to store the position
-         */
-        if (step.getPosition() < recipe.getSteps().size()-1){
-            Step stepNext = recipe.getSteps().get(step.getPosition()+1);
-            stepNext.setPosition(step.getPosition()+1);
-            mButtonNext.setTag(stepNext);
-        } else {
-            mButtonNext.setVisibility(View.GONE);
-        }
-        if (step.getPosition() > 0){
-            Step stepPrevious = recipe.getSteps().get(step.getPosition()-1);
-            stepPrevious.setPosition(step.getPosition()-1);
-            mButtonPrevious.setTag(stepPrevious);
-        } else {
-            mButtonPrevious.setVisibility(View.GONE);
-        }
-
-        if (!step.getVideoURL().isEmpty()){
-            initializePlayer(Uri.parse(step.getVideoURL()));
-        } else {
-            mPlayerView.setVisibility(View.GONE);
-        }
-
-        if (!step.getThumbnailURL().isEmpty()){
-            Picasso.with(mImageViewThumbnail.getContext())
-                    .load(step.getThumbnailURL())
-                    .placeholder(R.drawable.movie_placeholder)
-                    .error(R.drawable.movie_error)
-                    .into(mImageViewThumbnail);
-        } else {
-            mImageViewThumbnail.setVisibility(View.GONE);
-        }
+        replaceFragment(step);
     }
 
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
-        if (mExoPlayer != null){
-            videoSeekAt = mExoPlayer.getCurrentPosition();
-            outState.putLong(VIDEO_SEEK_AT, videoSeekAt);
-        }
-    }
+    private void replaceFragment(Step step) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
+        bundle.putParcelable(RecipeListActivity.INTENT_PARCEL_STEP, step);
 
-    private void initializePlayer(Uri mediaUri) {
-        if (mExoPlayer == null) {
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
-            mPlayerView.setPlayer(mExoPlayer);
-            String userAgent = Util.getUserAgent(this, "Dapoor");
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
-                    this, userAgent), new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
-            mExoPlayer.seekTo(videoSeekAt);
-        }
+        RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
+        recipeStepFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.recipe_step_container, recipeStepFragment).
+                commit();
     }
 
     public void clickPrevious(View view){
-        releasePlayer();
-        Intent intentToStartDetailActivity = new Intent(this, RecipeStepActivity.class);
-        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_STEP, (Step) view.getTag());
-        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
-        startActivity(intentToStartDetailActivity);
+        replaceFragment((Step) view.getTag());
 
     }
 
     public void clickNext(View view){
-        releasePlayer();
-        Intent intentToStartDetailActivity = new Intent(this, RecipeStepActivity.class);
-        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_STEP, (Step) view.getTag());
-        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
-        startActivity(intentToStartDetailActivity);
+        replaceFragment((Step) view.getTag());
     }
 
-    private void releasePlayer() {
-        if (mExoPlayer != null){
-            mExoPlayer.stop();
-            mExoPlayer.release();
-            mExoPlayer = null;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
-    }
 }

@@ -1,45 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recipe_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="@dimen/layout_spacing"
-        android:text="@string/ingredients"
-        android:textSize="@dimen/material_typography_dense_headline_text_size"
-        tools:text="@string/ingredients" />
-
-    <TextView
-        android:id="@+id/tv_recipe_ingredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:padding="@dimen/layout_spacing"
-        android:textSize="@dimen/material_typography_dense_body_1_text_size"
-        tools:text="@string/ingredient_item" />
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_steps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-    </ScrollView>
 </FrameLayout>
