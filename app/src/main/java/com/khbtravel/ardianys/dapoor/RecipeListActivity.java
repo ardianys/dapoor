@@ -24,7 +24,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity  implements RecipeAdapter.ItemClickListener {
+public class RecipeListActivity extends AppCompatActivity  implements RecipeAdapter.ItemClickListener {
 
     public static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
     public static final String INTENT_PARCEL_RECIPE = "PARCEL_RECIPE";
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity  implements RecipeAdapter.It
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_recipe_list);
         ButterKnife.bind(this);
 
         int orientation = this.getResources().getConfiguration().orientation;
@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity  implements RecipeAdapter.It
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         }
 
-        mRecipeAdapter = new RecipeAdapter(MainActivity.this);
-        mRecipeAdapter.setClickListener(MainActivity.this);
+        mRecipeAdapter = new RecipeAdapter(RecipeListActivity.this);
+        mRecipeAdapter.setClickListener(RecipeListActivity.this);
         mRecyclerView.setAdapter(mRecipeAdapter);
         mRecyclerView.setHasFixedSize(true);
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity  implements RecipeAdapter.It
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "error :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeListActivity.this, "error :(", Toast.LENGTH_SHORT).show();
             }
         });
 

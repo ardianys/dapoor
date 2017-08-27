@@ -1,9 +1,7 @@
 package com.khbtravel.ardianys.dapoor;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,12 +21,9 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.khbtravel.ardianys.dapoor.pojo.Ingredient;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 import com.khbtravel.ardianys.dapoor.pojo.Step;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,18 +59,18 @@ public class RecipeStepActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
-            recipe = savedInstanceState.getParcelable(MainActivity.INTENT_PARCEL_RECIPE);
-            step = savedInstanceState.getParcelable(MainActivity.INTENT_PARCEL_STEP);
+            recipe = savedInstanceState.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
+            step = savedInstanceState.getParcelable(RecipeListActivity.INTENT_PARCEL_STEP);
             videoSeekAt = savedInstanceState.getLong(VIDEO_SEEK_AT, 0);
         }
 
         Intent intent = getIntent();
         if (intent != null) {
-            if (intent.hasExtra(MainActivity.INTENT_PARCEL_RECIPE)) {
-                recipe = intent.getParcelableExtra(MainActivity.INTENT_PARCEL_RECIPE);
+            if (intent.hasExtra(RecipeListActivity.INTENT_PARCEL_RECIPE)) {
+                recipe = intent.getParcelableExtra(RecipeListActivity.INTENT_PARCEL_RECIPE);
             }
-            if (intent.hasExtra(MainActivity.INTENT_PARCEL_STEP)) {
-                step = intent.getParcelableExtra(MainActivity.INTENT_PARCEL_STEP);
+            if (intent.hasExtra(RecipeListActivity.INTENT_PARCEL_STEP)) {
+                step = intent.getParcelableExtra(RecipeListActivity.INTENT_PARCEL_STEP);
             }
         }
 
@@ -118,7 +113,7 @@ public class RecipeStepActivity extends AppCompatActivity {
 
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(MainActivity.INTENT_PARCEL_RECIPE, recipe);
+        outState.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
         if (mExoPlayer != null){
             videoSeekAt = mExoPlayer.getCurrentPosition();
             outState.putLong(VIDEO_SEEK_AT, videoSeekAt);
@@ -143,8 +138,8 @@ public class RecipeStepActivity extends AppCompatActivity {
     public void clickPrevious(View view){
         releasePlayer();
         Intent intentToStartDetailActivity = new Intent(this, RecipeStepActivity.class);
-        intentToStartDetailActivity.putExtra(MainActivity.INTENT_PARCEL_STEP, (Step) view.getTag());
-        intentToStartDetailActivity.putExtra(MainActivity.INTENT_PARCEL_RECIPE, recipe);
+        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_STEP, (Step) view.getTag());
+        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
         startActivity(intentToStartDetailActivity);
 
     }
@@ -152,8 +147,8 @@ public class RecipeStepActivity extends AppCompatActivity {
     public void clickNext(View view){
         releasePlayer();
         Intent intentToStartDetailActivity = new Intent(this, RecipeStepActivity.class);
-        intentToStartDetailActivity.putExtra(MainActivity.INTENT_PARCEL_STEP, (Step) view.getTag());
-        intentToStartDetailActivity.putExtra(MainActivity.INTENT_PARCEL_RECIPE, recipe);
+        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_STEP, (Step) view.getTag());
+        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
         startActivity(intentToStartDetailActivity);
     }
 

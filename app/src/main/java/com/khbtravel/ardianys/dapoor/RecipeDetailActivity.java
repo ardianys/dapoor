@@ -45,15 +45,15 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepAdapt
 
 
         if (savedInstanceState != null) {
-            recipe = savedInstanceState.getParcelable(MainActivity.INTENT_PARCEL_RECIPE);
+            recipe = savedInstanceState.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
         }
 
 
         // Get Intent and check for recipe ID that added in intent's extra
         Intent intent = getIntent();
         if (intent != null) {
-            if (intent.hasExtra(MainActivity.INTENT_PARCEL_RECIPE)) {
-                recipe = intent.getParcelableExtra(MainActivity.INTENT_PARCEL_RECIPE);
+            if (intent.hasExtra(RecipeListActivity.INTENT_PARCEL_RECIPE)) {
+                recipe = intent.getParcelableExtra(RecipeListActivity.INTENT_PARCEL_RECIPE);
             }
         }
 
@@ -73,7 +73,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepAdapt
 
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(MainActivity.INTENT_PARCEL_RECIPE, recipe);
+        outState.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
     }
 
     @Override
@@ -81,8 +81,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepAdapt
         Intent intentToStartDetailActivity = new Intent(this, RecipeStepActivity.class);
         Step step = stepAdapter.getStep(position);
         step.setPosition(position);
-        intentToStartDetailActivity.putExtra(MainActivity.INTENT_PARCEL_RECIPE, recipe);
-        intentToStartDetailActivity.putExtra(MainActivity.INTENT_PARCEL_STEP, step);
+        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
+        intentToStartDetailActivity.putExtra(RecipeListActivity.INTENT_PARCEL_STEP, step);
         startActivity(intentToStartDetailActivity);
     }
 }
