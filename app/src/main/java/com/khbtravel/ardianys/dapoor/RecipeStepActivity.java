@@ -63,7 +63,6 @@ public class RecipeStepActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_step);
         ButterKnife.bind(this);
 
-
         if (savedInstanceState != null) {
             recipe = savedInstanceState.getParcelable(MainActivity.INTENT_PARCEL_RECIPE);
             step = savedInstanceState.getParcelable(MainActivity.INTENT_PARCEL_STEP);
@@ -80,11 +79,11 @@ public class RecipeStepActivity extends AppCompatActivity {
             }
         }
 
+        mTvDescription.setText(step.getDescription());
         /**
-         * The step ID in Step API isn't using incremental value,
+         * The step ID in API isn't using incremental value,
          * we should add new variable to store the position
          */
-        mTvDescription.setText(step.getDescription());
         if (step.getPosition() < recipe.getSteps().size()-1){
             Step stepNext = recipe.getSteps().get(step.getPosition()+1);
             stepNext.setPosition(step.getPosition()+1);

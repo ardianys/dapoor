@@ -1,4 +1,4 @@
-package com.khbtravel.ardianys.dapoor.ui;
+package com.khbtravel.ardianys.dapoor.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
-import com.khbtravel.ardianys.dapoor.ui.RecipeAdapter;
+import com.khbtravel.ardianys.dapoor.adapter.RecipeAdapter;
 import com.khbtravel.ardianys.dapoor.utils.ApiClient;
 
 import java.util.List;

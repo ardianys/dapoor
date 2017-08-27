@@ -1,8 +1,6 @@
 package com.khbtravel.ardianys.dapoor;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +11,9 @@ import android.widget.TextView;
 import com.khbtravel.ardianys.dapoor.pojo.Ingredient;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 import com.khbtravel.ardianys.dapoor.pojo.Step;
-import com.khbtravel.ardianys.dapoor.ui.StepAdapter;
-import com.squareup.picasso.Picasso;
+import com.khbtravel.ardianys.dapoor.adapter.StepAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
