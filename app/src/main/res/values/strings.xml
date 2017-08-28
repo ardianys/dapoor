@@ -3,6 +3,6 @@
     <string name="ingredients">Ingredients</string>
     <string name="ingredient_item">1 Egg</string>
     <string name="step_description">Step Description</string>
-    <string name="appwidget_text">EXAMPLE</string>
+    <string name="appwidget_text">Last Viewed Recipe</string>
     <string name="add_widget">Add widget</string>
 </resources>
