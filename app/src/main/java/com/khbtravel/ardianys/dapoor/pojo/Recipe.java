@@ -47,6 +47,19 @@ public class Recipe implements Parcelable
         dest.writeString(image);
     }
 
+    public String buildIngredients(){
+        String output = name + "\n";
+        for(int i=0; i< ingredients.size(); i++){
+            Ingredient ingredient = ingredients.get(i);
+            if (ingredient != null ){
+                output += ingredient.getQuantity() + " " +
+                        ingredient.getMeasure() + " " +
+                        ingredient.getIngredient() + "\n";
+            }
+        }
+        return output;
+    }
+
     public String getId() {
         return id;
     }

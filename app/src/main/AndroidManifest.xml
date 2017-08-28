@@ -20,22 +20,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecipeDetailActivity"
+        <activity
+            android:name=".RecipeDetailActivity"
             android:label="Recipe Detail"
-            android:parentActivityName=".RecipeListActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:parentActivityName=".RecipeListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".RecipeListActivity" />
         </activity>
-
-        <activity android:name=".RecipeStepActivity"
+        <activity
+            android:name=".RecipeStepActivity"
             android:label="Recipe Step"
             android:parentActivityName=".RecipeDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".RecipeDetailActivity" />
         </activity>
+
+        <receiver android:name=".widget.RecipeWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/ingredient_widget_provider_info" />
+        </receiver>
+
+        <service android:name=".widget.RecipeWidgetService" />
+
+
+
     </application>
 
 </manifest>

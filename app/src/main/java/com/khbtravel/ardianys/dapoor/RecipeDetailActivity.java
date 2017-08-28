@@ -1,6 +1,8 @@
 package com.khbtravel.ardianys.dapoor;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import com.khbtravel.ardianys.dapoor.pojo.Ingredient;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 import com.khbtravel.ardianys.dapoor.pojo.Step;
 import com.khbtravel.ardianys.dapoor.adapter.StepAdapter;
+import com.khbtravel.ardianys.dapoor.widget.RecipeWidgetService;
 
 import java.util.ArrayList;
 
@@ -45,6 +48,14 @@ public class RecipeDetailActivity extends AppCompatActivity
                 recipe = intent.getParcelableExtra(RecipeListActivity.INTENT_PARCEL_RECIPE);
             }
         }
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("SHARED_PREFS_INGREDIENTS", recipe.buildIngredients());
+        editor.commit();
+
+        RecipeWidgetService.startActionUpdateWidgets(getApplicationContext(), recipe);
+
 
         if(findViewById(R.id.recipe_step_container)!= null){
             mTabletMode = true;

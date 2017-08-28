@@ -63,17 +63,7 @@ public class RecipeDetailFragment extends Fragment {
             recipe = bundle.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
         }
 
-        String output = "";
-        ArrayList<Ingredient> ingredients = recipe.getIngredients();
-        for(int i=0; i< ingredients.size(); i++){
-            Ingredient ingredient = ingredients.get(i);
-            if (ingredient != null ){
-                output += ingredient.getQuantity() + " " +
-                        ingredient.getMeasure() + " " +
-                        ingredient.getIngredient() + "\n";
-            }
-        }
-        mTextViewIngredients.setText(output);
+        mTextViewIngredients.setText(recipe.buildIngredients());
         stepAdapter.setSteps(recipe.getSteps());
 
         return rootView;
