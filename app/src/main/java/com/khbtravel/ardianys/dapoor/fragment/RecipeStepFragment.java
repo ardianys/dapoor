@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,8 +59,9 @@ public class RecipeStepFragment extends Fragment {
 
     Recipe recipe;
     Step step;
-    long videoSeekAt = 0;
+    long videoSeekAt;
     public static final String VIDEO_SEEK_AT = "VIDEO_SEEK_AT";
+    public static final String TAG = "RecipeStepFragment";
     private Boolean mTabletMode = false;
 
 
@@ -67,11 +69,17 @@ public class RecipeStepFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         ButterKnife.bind(this, rootView);
 
+        Log.e(TAG, videoSeekAt + " onCreateView");
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             recipe = bundle.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
             step = bundle.getParcelable(RecipeListActivity.INTENT_PARCEL_STEP);
             mTabletMode = bundle.getBoolean(RecipeListActivity.INTENT_BOOL_TABLET_MODE, false);
+        }
+
+        if (savedInstanceState != null) {
+            videoSeekAt = savedInstanceState.getLong(VIDEO_SEEK_AT, 0);
         }
 
         if (mTabletMode){
@@ -137,8 +145,11 @@ public class RecipeStepFragment extends Fragment {
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
             mExoPlayer.seekTo(videoSeekAt);
+            Log.e(TAG, videoSeekAt + " seek at");
+            mExoPlayer.setPlayWhenReady(true);
+        } else {
+
         }
     }
 

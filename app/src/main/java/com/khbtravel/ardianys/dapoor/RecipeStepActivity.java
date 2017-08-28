@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,57 +30,75 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_BOOL_TABLET_MODE;
+import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_PARCEL_RECIPE;
+import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_PARCEL_STEP;
 
 public class RecipeStepActivity extends AppCompatActivity {
 
     Recipe recipe;
     Step step;
-    long videoSeekAt = 0;
-    public static final String VIDEO_SEEK_AT = "VIDEO_SEEK_AT";
+    Bundle mBundle;
+    private Boolean mTabletMode = false;
+    public static final String TAG = "RecipeStepActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_step);
 
+        Log.e(TAG, 111111 + " onCreate");
+
         if (savedInstanceState != null) {
-            recipe = savedInstanceState.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
-            step = savedInstanceState.getParcelable(RecipeListActivity.INTENT_PARCEL_STEP);
-            videoSeekAt = savedInstanceState.getLong(VIDEO_SEEK_AT, 0);
+            recipe = savedInstanceState.getParcelable(INTENT_PARCEL_RECIPE);
+            step = savedInstanceState.getParcelable(INTENT_PARCEL_STEP);
+            mTabletMode = savedInstanceState.getBoolean(INTENT_BOOL_TABLET_MODE);
         }
 
         Intent intent = getIntent();
         if (intent != null) {
-            if (intent.hasExtra(RecipeListActivity.INTENT_PARCEL_RECIPE)) {
-                recipe = intent.getParcelableExtra(RecipeListActivity.INTENT_PARCEL_RECIPE);
+            if (intent.hasExtra(INTENT_PARCEL_RECIPE)) {
+                recipe = intent.getParcelableExtra(INTENT_PARCEL_RECIPE);
             }
-            if (intent.hasExtra(RecipeListActivity.INTENT_PARCEL_STEP)) {
-                step = intent.getParcelableExtra(RecipeListActivity.INTENT_PARCEL_STEP);
+            if (intent.hasExtra(INTENT_PARCEL_STEP)) {
+                step = intent.getParcelableExtra(INTENT_PARCEL_STEP);
+            }
+            if (intent.hasExtra(INTENT_BOOL_TABLET_MODE)) {
+                mTabletMode = intent.getBooleanExtra(INTENT_BOOL_TABLET_MODE, false);
             }
         }
 
-        replaceFragment(step);
+        if(savedInstanceState == null) {
+            RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
+            replaceFragment(step, recipeStepFragment);
+        } else {
+            RecipeStepFragment recipeStepFragment = (RecipeStepFragment) getSupportFragmentManager().
+                    findFragmentByTag(RecipeStepFragment.TAG);
+            replaceFragment(step, recipeStepFragment);
+        }
     }
 
-    private void replaceFragment(Step step) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
-        bundle.putParcelable(RecipeListActivity.INTENT_PARCEL_STEP, step);
-
-        RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
-        recipeStepFragment.setArguments(bundle);
+    private void replaceFragment(Step step, RecipeStepFragment recipeStepFragment) {
+        if (recipeStepFragment.getArguments() == null) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(INTENT_PARCEL_RECIPE, recipe);
+            bundle.putParcelable(INTENT_PARCEL_STEP, step);
+            recipeStepFragment.setArguments(bundle);
+        }
         getSupportFragmentManager().beginTransaction().
-                replace(R.id.recipe_step_container, recipeStepFragment).
+                replace(R.id.recipe_step_container, recipeStepFragment, RecipeStepFragment.TAG).
+                addToBackStack(null).
                 commit();
     }
 
     public void clickPrevious(View view){
-        replaceFragment((Step) view.getTag());
-
+        RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
+        replaceFragment((Step) view.getTag(), recipeStepFragment);
     }
 
     public void clickNext(View view){
-        replaceFragment((Step) view.getTag());
+        RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
+        replaceFragment((Step) view.getTag(), recipeStepFragment);
     }
 
 }
