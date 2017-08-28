@@ -132,6 +132,8 @@ public class RecipeStepFragment extends Fragment {
         if (mExoPlayer != null){
             videoSeekAt = mExoPlayer.getCurrentPosition();
             outState.putLong(VIDEO_SEEK_AT, videoSeekAt);
+        } else if (videoSeekAt > 0){
+            outState.putLong(VIDEO_SEEK_AT, videoSeekAt);
         }
     }
 
@@ -148,14 +150,13 @@ public class RecipeStepFragment extends Fragment {
             mExoPlayer.seekTo(videoSeekAt);
             Log.e(TAG, videoSeekAt + " seek at");
             mExoPlayer.setPlayWhenReady(true);
-        } else {
-
         }
     }
 
 
     private void releasePlayer() {
         if (mExoPlayer != null){
+            videoSeekAt = mExoPlayer.getCurrentPosition();
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
@@ -165,6 +166,18 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        releasePlayer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         releasePlayer();
     }
 }
