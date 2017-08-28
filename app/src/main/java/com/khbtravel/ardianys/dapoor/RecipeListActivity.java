@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
@@ -33,6 +34,9 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
 
     @BindView(R.id.rv_recipes)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.pb_loading_indicator)
+    ProgressBar mProgressBar;
 
     RecipeAdapter mRecipeAdapter;
 
@@ -68,12 +72,13 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 List<Recipe> recipes = response.body();
-
+                mProgressBar.setVisibility(View.GONE);
                 mRecipeAdapter.setRecipes(recipes);
             }
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                mProgressBar.setVisibility(View.GONE);
                 Toast.makeText(RecipeListActivity.this, "error :(", Toast.LENGTH_SHORT).show();
             }
         });

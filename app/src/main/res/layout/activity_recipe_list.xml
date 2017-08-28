@@ -7,14 +7,12 @@
     android:layout_height="match_parent"
     tools:context="com.khbtravel.ardianys.dapoor.RecipeListActivity">
 
-
-
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
         android:layout_height="42dp"
         android:layout_width="42dp"
         android:layout_gravity="center"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recipes"
