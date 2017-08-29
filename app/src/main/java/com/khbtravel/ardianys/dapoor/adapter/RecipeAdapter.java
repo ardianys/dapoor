@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 
 import com.khbtravel.ardianys.dapoor.R;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
+import com.squareup.picasso.Picasso;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -42,6 +44,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public void onBindViewHolder(RecipeViewHolder holder, int position) {
         Recipe recipe = mRecipesData.get(position);
         holder.mRecipeTitleTv.setText(recipe.getName());
+
+        if (!recipe.getImage().isEmpty()){
+            Picasso.with(holder.mRecipeThumbIv.getContext())
+                    .load(recipe.getImage())
+                    .placeholder(R.drawable.menu)
+                    .error(R.drawable.menu)
+                    .into(holder.mRecipeThumbIv);
+        }
     }
 
     @Override
@@ -52,7 +62,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.tv_recipe_title) TextView mRecipeTitleTv;
+        @BindView(R.id.tv_recipe_title)
+        TextView mRecipeTitleTv;
+
+        @BindView(R.id.iv_recipe_menu_list)
+        ImageView mRecipeThumbIv;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);

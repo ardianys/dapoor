@@ -108,18 +108,18 @@ public class RecipeStepFragment extends Fragment {
 
         mTvDescription.setText(step.getDescription());
 
-        if (!step.getVideoURL().isEmpty()){
-            initializePlayer(Uri.parse(step.getVideoURL()));
-        } else {
+        if (step.getVideoURL().isEmpty()){
             mPlayerView.setVisibility(View.GONE);
+        } else {
+            initializePlayer(Uri.parse(step.getVideoURL()));
         }
 
-        if (!step.getThumbnailURL().isEmpty()){
+        if (step.getThumbnailURL().isEmpty()){
+            mImageViewThumbnail.setVisibility(View.GONE);
+        } else {
             Picasso.with(mImageViewThumbnail.getContext())
                     .load(step.getThumbnailURL())
                     .into(mImageViewThumbnail);
-        } else {
-            mImageViewThumbnail.setVisibility(View.GONE);
         }
 
         return rootView;

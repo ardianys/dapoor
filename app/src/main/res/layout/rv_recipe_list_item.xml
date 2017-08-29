@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cardView"
-        android:layout_gravity="center_horizontal"
+
+<android.support.v7.widget.CardView
+xmlns:card_view="http://schemas.android.com/apk/res-auto"
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/card_view"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+card_view:cardUseCompatPadding="true"
+card_view:cardCornerRadius="8dp"
+android:layout_marginBottom="16dp">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_recipe_menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/menu"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tv_recipe_title"
+        android:layout_alignLeft="@id/iv_recipe_menu_list"
+        android:layout_alignTop="@id/iv_recipe_menu_list"
+        android:layout_alignRight="@id/iv_recipe_menu_list"
+        android:layout_alignBottom="@id/iv_recipe_menu_list"
+        android:layout_margin="1dp"
+        android:text="Menu"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/material_app_bar_default_title_text_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/material_card_edge_margin"
-        android:layout_marginRight="@dimen/material_card_edge_margin"
-        android:layout_marginTop="@dimen/material_card_edge_margin"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="@dimen/material_card_corner_radius"
-        card_view:cardElevation="4dp">
-        <TextView
-            android:id="@+id/tv_recipe_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="@dimen/material_typography_dense_headline_text_size"
-            android:layout_gravity="center_horizontal"
-            android:padding="@dimen/layout_spacing"/>
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+        android:gravity="center"/>
+
+</RelativeLayout>
+
+</android.support.v7.widget.CardView>

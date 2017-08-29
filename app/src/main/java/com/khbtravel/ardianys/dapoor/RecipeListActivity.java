@@ -3,6 +3,7 @@ package com.khbtravel.ardianys.dapoor;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -31,6 +32,7 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
     public static final String INTENT_PARCEL_RECIPE = "PARCEL_RECIPE";
     public static final String INTENT_PARCEL_STEP = "PARCEL_STEP";
     public static final String INTENT_BOOL_TABLET_MODE = "BOOL_TABLET_MODE";
+    public static final String RECYCLER_VIEW_STATE = "RECYCLER_VIEW_STATE";
 
     @BindView(R.id.rv_recipes)
     RecyclerView mRecyclerView;
@@ -41,16 +43,16 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
     RecipeAdapter mRecipeAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
         ButterKnife.bind(this);
 
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        } else {
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        } else {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         }
 
         mRecipeAdapter = new RecipeAdapter(RecipeListActivity.this);
@@ -74,6 +76,13 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
                 List<Recipe> recipes = response.body();
                 mProgressBar.setVisibility(View.GONE);
                 mRecipeAdapter.setRecipes(recipes);
+
+                if (savedInstanceState != null){
+                    mRecyclerView.getLayoutManager().onRestoreInstanceState(
+                            savedInstanceState.getParcelable(RECYCLER_VIEW_STATE)
+                    );
+                }
+
             }
 
             @Override
@@ -84,6 +93,12 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
         });
 
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelable(RECYCLER_VIEW_STATE, mRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.khbtravel.ardianys.dapoor.R;
@@ -15,6 +16,7 @@ import com.khbtravel.ardianys.dapoor.RecipeListActivity;
 import com.khbtravel.ardianys.dapoor.adapter.StepAdapter;
 import com.khbtravel.ardianys.dapoor.pojo.Ingredient;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,9 @@ public class RecipeDetailFragment extends Fragment {
 
     @BindView(R.id.rv_steps)
     RecyclerView mRecyclerViewSteps;
+
+    @BindView(R.id.iv_recipe_thumbnail)
+    ImageView mImageViewRecipeThumb;
 
     StepAdapter stepAdapter;
 
@@ -65,6 +70,14 @@ public class RecipeDetailFragment extends Fragment {
 
         mTextViewIngredients.setText(recipe.buildIngredients());
         stepAdapter.setSteps(recipe.getSteps());
+
+        if (recipe.getImage().isEmpty()){
+            mImageViewRecipeThumb.setVisibility(View.GONE);
+        } else {
+            Picasso.with(mImageViewRecipeThumb.getContext())
+                    .load(recipe.getImage())
+                    .into(mImageViewRecipeThumb);
+        }
 
         return rootView;
     }
