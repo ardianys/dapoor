@@ -38,7 +38,7 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
     public static final String INTENT_PARCEL_RECIPE = "PARCEL_RECIPE";
     public static final String INTENT_PARCEL_STEP = "PARCEL_STEP";
     public static final String INTENT_BOOL_TABLET_MODE = "BOOL_TABLET_MODE";
-    public static final String RECYCLER_VIEW_STATE = "RECYCLER_VIEW_STATE";
+    public static final String RECYCLER_VIEW_RECIPE = "RECYCLER_VIEW_RECIPE";
 
     @BindView(R.id.rv_recipes)
     RecyclerView mRecyclerView;
@@ -91,7 +91,7 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
 
                 if (savedInstanceState != null){
                     mRecyclerView.getLayoutManager().onRestoreInstanceState(
-                            savedInstanceState.getParcelable(RECYCLER_VIEW_STATE)
+                            savedInstanceState.getParcelable(RECYCLER_VIEW_RECIPE)
                     );
                 }
                 mIdlingResource.setIdleState(true);
@@ -110,7 +110,7 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        outState.putParcelable(RECYCLER_VIEW_STATE, mRecyclerView.getLayoutManager().onSaveInstanceState());
+        outState.putParcelable(RECYCLER_VIEW_RECIPE, mRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @Override

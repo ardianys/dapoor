@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.khbtravel.ardianys.dapoor.RecipeDetailActivity.RECYCLER_VIEW_STEP;
+import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_PARCEL_RECIPE;
+
 /**
  * Created by ardianys on 8/27/17.
  */
@@ -70,7 +73,7 @@ public class RecipeDetailFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            recipe = bundle.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
+            recipe = bundle.getParcelable(INTENT_PARCEL_RECIPE);
         }
 
         mTextViewIngredients.setText(recipe.buildIngredients());
@@ -84,11 +87,18 @@ public class RecipeDetailFragment extends Fragment {
                     .into(mImageViewRecipeThumb);
         }
 
+        if (savedInstanceState != null){
+            mRecyclerViewSteps.getLayoutManager().onRestoreInstanceState(
+                    savedInstanceState.getParcelable(RECYCLER_VIEW_STEP)
+            );
+        }
+
         return rootView;
     }
 
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
+        outState.putParcelable(INTENT_PARCEL_RECIPE, recipe);
+        outState.putParcelable(RECYCLER_VIEW_STEP, mRecyclerViewSteps.getLayoutManager().onSaveInstanceState());
     }
 }

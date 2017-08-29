@@ -15,6 +15,7 @@ import com.khbtravel.ardianys.dapoor.RecipeDetailActivity;
 import com.khbtravel.ardianys.dapoor.RecipeListActivity;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 
+import static com.khbtravel.ardianys.dapoor.RecipeDetailActivity.SHARED_PREFS_INGREDIENTS;
 import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_PARCEL_RECIPE;
 
 /**
@@ -35,7 +36,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (sharedPreferences.contains("SHARED_PREFS_INGREDIENTS")){
+        if (sharedPreferences.contains(SHARED_PREFS_INGREDIENTS)){
             String ingredients = sharedPreferences.getString("SHARED_PREFS_INGREDIENTS", "Not set");
             views.setTextViewText(R.id.appwidget_text, ingredients);
         }

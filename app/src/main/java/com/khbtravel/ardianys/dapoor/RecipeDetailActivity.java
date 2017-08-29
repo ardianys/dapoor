@@ -33,10 +33,16 @@ import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_PARCEL_STE
 public class RecipeDetailActivity extends AppCompatActivity
         implements MasterListInterface {
 
+    @BindView(R.id.rv_steps)
+    RecyclerView mRecyclerViewStep;
+
     private Boolean mTabletMode = false;
 
     Recipe recipe;
     Step step;
+
+    public static final String RECYCLER_VIEW_STEP = "RECYCLER_VIEW_STEP";
+    public static final String SHARED_PREFS_INGREDIENTS = "SHARED_PREFS_INGREDIENTS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,7 @@ public class RecipeDetailActivity extends AppCompatActivity
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("SHARED_PREFS_INGREDIENTS", recipe.buildIngredients());
+        editor.putString(SHARED_PREFS_INGREDIENTS, recipe.buildIngredients());
         editor.commit();
 
         RecipeWidgetService.startActionUpdateWidgets(getApplicationContext(), recipe);
