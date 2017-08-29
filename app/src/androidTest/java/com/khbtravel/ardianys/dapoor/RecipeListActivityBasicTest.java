@@ -1,5 +1,6 @@
 package com.khbtravel.ardianys.dapoor;
 
+import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -24,6 +25,7 @@ public class RecipeListActivityBasicTest {
 
     @Test
     public void clickRecipeListThenShowRecipeDetails() {
+        SystemClock.sleep(1000);
         onView(withId(R.id.rv_recipes))
                 .perform(actionOnItemAtPosition(0, click()));
     }
