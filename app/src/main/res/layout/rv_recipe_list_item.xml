@@ -7,8 +7,8 @@ android:id="@+id/card_view"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 card_view:cardUseCompatPadding="true"
-card_view:cardCornerRadius="8dp"
-android:layout_marginBottom="16dp">
+card_view:cardCornerRadius="@dimen/material_card_corner_radius"
+android:layout_marginBottom="@dimen/material_card_edge_margin">
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -17,7 +17,7 @@ android:layout_marginBottom="16dp">
     <ImageView
         android:id="@+id/iv_recipe_menu_list"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/recipe_thumb_height"
         android:src="@drawable/menu"
         android:scaleType="centerCrop" />
 
@@ -27,9 +27,8 @@ android:layout_marginBottom="16dp">
         android:layout_alignTop="@id/iv_recipe_menu_list"
         android:layout_alignRight="@id/iv_recipe_menu_list"
         android:layout_alignBottom="@id/iv_recipe_menu_list"
-        android:layout_margin="1dp"
-        android:text="Menu"
-        android:textColor="#ffffff"
+        android:text="@string/menu"
+        android:textColor="@color/material_color_white"
         android:textSize="@dimen/material_app_bar_default_title_text_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
