@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--Using layout setup overhere to overcame image stretching too much white space-->
+<!--https://inducesmile.com/android/android-gridlayoutmanager-with-recyclerview-in-material-design/-->
 <android.support.v7.widget.CardView
 xmlns:card_view="http://schemas.android.com/apk/res-auto"
 xmlns:android="http://schemas.android.com/apk/res/android"
