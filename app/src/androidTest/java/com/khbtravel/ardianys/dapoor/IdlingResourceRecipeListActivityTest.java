@@ -19,9 +19,13 @@ package com.khbtravel.ardianys.dapoor;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -31,9 +35,15 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.not;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -53,8 +63,34 @@ public class IdlingResourceRecipeListActivityTest {
 
     @Test
     public void idlingResourceTest() {
-        onView(withId(R.id.rv_recipes))
+
+        // click recipes list
+        onView(allOf(withId(R.id.rv_recipes), isDisplayed()))
                 .perform(actionOnItemAtPosition(0, click()));
+
+        // assert recipe detail showed
+        onView(allOf(withId(R.id.tv_title_ingredients), withText("Ingredients"),isDisplayed()))
+                .check(matches(withText("Ingredients")));
+
+        // assert recipe ingredients shown
+        onView(allOf(withId(R.id.tv_recipe_ingredients), isDisplayed()))
+                .check(matches(isDisplayed()));
+
+        // click the first recipe's step
+        onView(withId(R.id.rv_steps))
+                .perform(actionOnItemAtPosition(0, click()));
+
+        // assert the previous button is not visible
+        onView (withId(R.id.b_previous_step))
+                .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+
+        // click the next step
+        onView(allOf(withId(R.id.b_next_step), isDisplayed()))
+                .check(matches(isDisplayed()));
+
+        // assert the next step is displayed correctly
+        onView(allOf(withId(R.id.tv_step_description), isDisplayed()))
+                .check(matches(isDisplayed()));
     }
 
     @After
