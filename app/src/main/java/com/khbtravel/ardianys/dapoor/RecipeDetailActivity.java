@@ -2,6 +2,7 @@ package com.khbtravel.ardianys.dapoor;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class RecipeDetailActivity extends AppCompatActivity
     private Boolean mTabletMode = false;
 
     Recipe recipe;
+    Step step;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,33 +70,55 @@ public class RecipeDetailActivity extends AppCompatActivity
         if (isTablet()){
             if(savedInstanceState == null) {
                 RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
-                replaceFragment(0, recipeStepFragment);
+                replaceStepFragment(0, recipeStepFragment);
             } else {
+                step = savedInstanceState.getParcelable(INTENT_PARCEL_STEP);
                 RecipeStepFragment recipeStepFragment = (RecipeStepFragment) getSupportFragmentManager().
                         findFragmentByTag(RecipeStepFragment.TAG);
-                replaceFragment(0, recipeStepFragment);
+                replaceStepFragment(0, recipeStepFragment);
             }
         }
 
-        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(this);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(INTENT_PARCEL_RECIPE, recipe);
-        bundle.putBoolean(INTENT_BOOL_TABLET_MODE, mTabletMode);
-        recipeDetailFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().
-                replace(R.id.recipe_detail_container, recipeDetailFragment).
-                commit();
+        if(savedInstanceState == null) {
+            RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(this);
+            replaceDetailFragment(recipe, recipeDetailFragment);
+        } else {
+            RecipeDetailFragment recipeDetailFragment = (RecipeDetailFragment) getSupportFragmentManager().
+                    findFragmentByTag(RecipeDetailFragment.TAG);
+            recipeDetailFragment.setListener(this);
+            replaceDetailFragment(recipe, recipeDetailFragment);
+        }
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (isTablet()){
+            outState.putParcelable(INTENT_PARCEL_STEP, step);
+        }
     }
 
     public boolean isTablet() {
         return mTabletMode;
     }
 
-    private void replaceFragment(int position, RecipeStepFragment recipeStepFragment) {
+    private void replaceDetailFragment(Recipe recipe, RecipeDetailFragment recipeDetailFragment) {
+        if (recipeDetailFragment.getArguments() == null) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(INTENT_PARCEL_RECIPE, recipe);
+            bundle.putBoolean(INTENT_BOOL_TABLET_MODE, mTabletMode);
+            recipeDetailFragment.setArguments(bundle);
+        }
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.recipe_detail_container, recipeDetailFragment, RecipeDetailFragment.TAG).
+                commit();
+    }
+
+    private void replaceStepFragment(int position, RecipeStepFragment recipeStepFragment) {
         if (recipeStepFragment.getArguments() == null) {
             Bundle bundle = new Bundle();
-            Step step = recipe.getSteps().get(position);
+            step = recipe.getSteps().get(position);
             bundle.putParcelable(INTENT_PARCEL_RECIPE, recipe);
             bundle.putParcelable(INTENT_PARCEL_STEP, step);
             bundle.putBoolean(INTENT_BOOL_TABLET_MODE, mTabletMode);
@@ -107,7 +131,7 @@ public class RecipeDetailActivity extends AppCompatActivity
 
     private void launchStepActivity(int position) {
         Intent intent = new Intent(this, RecipeStepActivity.class);
-        Step step = recipe.getSteps().get(position);
+        step = recipe.getSteps().get(position);
         step.setPosition(position);
         intent.putExtra(INTENT_PARCEL_RECIPE, recipe);
         intent.putExtra(INTENT_PARCEL_STEP, step);
@@ -118,7 +142,7 @@ public class RecipeDetailActivity extends AppCompatActivity
     @Override
     public void handleClick(int position) {
         if (isTablet()) {
-            replaceFragment(position, new RecipeStepFragment());
+            replaceStepFragment(position, new RecipeStepFragment());
         }else{
             launchStepActivity(position);
         }

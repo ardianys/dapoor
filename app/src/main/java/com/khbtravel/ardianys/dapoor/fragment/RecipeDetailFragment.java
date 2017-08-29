@@ -42,12 +42,17 @@ public class RecipeDetailFragment extends Fragment {
 
     Recipe recipe;
     private MasterListInterface listener;
+    public static final String TAG = "RecipeDetailFragment";
 
 
     public static RecipeDetailFragment newInstance(MasterListInterface listener) {
         RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
         recipeDetailFragment.listener = listener;
         return recipeDetailFragment;
+    }
+
+    public void setListener(MasterListInterface masterListInterface){
+        listener = masterListInterface;
     }
 
 
