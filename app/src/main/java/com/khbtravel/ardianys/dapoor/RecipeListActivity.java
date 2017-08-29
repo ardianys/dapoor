@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,6 +29,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import com.khbtravel.ardianys.dapoor.IdlingResource.SimpleIdlingResource;
+
 
 public class RecipeListActivity extends AppCompatActivity  implements RecipeAdapter.ItemClickListener {
 
@@ -41,6 +47,9 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
     ProgressBar mProgressBar;
 
     RecipeAdapter mRecipeAdapter;
+
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -70,6 +79,9 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
         ApiClient client = retrofit.create(ApiClient.class);
         Call<List<Recipe>> call = client.getRecipes();
 
+        // Espresso Testing
+        getIdlingResource();
+
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
@@ -82,16 +94,16 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
                             savedInstanceState.getParcelable(RECYCLER_VIEW_STATE)
                     );
                 }
-
+                mIdlingResource.setIdleState(true);
             }
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 mProgressBar.setVisibility(View.GONE);
                 Toast.makeText(RecipeListActivity.this, "error :(", Toast.LENGTH_SHORT).show();
+                mIdlingResource.setIdleState(true);
             }
         });
-
 
     }
 
@@ -107,5 +119,14 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
         Parcelable recipeParcel = mRecipeAdapter.getRecipe(position);
         intentToStartDetailActivity.putExtra(INTENT_PARCEL_RECIPE, recipeParcel);
         startActivity(intentToStartDetailActivity);
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 }
