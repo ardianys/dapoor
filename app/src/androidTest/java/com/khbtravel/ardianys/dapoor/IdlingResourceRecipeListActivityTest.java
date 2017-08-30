@@ -80,6 +80,10 @@ public class IdlingResourceRecipeListActivityTest {
         onView(withId(R.id.rv_steps))
                 .perform(actionOnItemAtPosition(0, click()));
 
+        // assert the step's description is displayed correctly
+        onView(allOf(withId(R.id.tv_step_description), isDisplayed()))
+                .check(matches(isDisplayed()));
+
         // assert the previous button is not visible
         onView (withId(R.id.b_previous_step))
                 .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
