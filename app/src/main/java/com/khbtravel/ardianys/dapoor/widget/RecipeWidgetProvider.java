@@ -13,6 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
+* Implementation of App Widget functionality.
+*
 * twitter.com/ardianys
 * August 2017
 */
@@ -25,28 +27,19 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 import com.khbtravel.ardianys.dapoor.R;
-import com.khbtravel.ardianys.dapoor.RecipeDetailActivity;
 import com.khbtravel.ardianys.dapoor.RecipeListActivity;
-import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 
 import static com.khbtravel.ardianys.dapoor.RecipeDetailActivity.SHARED_PREFS_INGREDIENTS;
-import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_PARCEL_RECIPE;
 
-/**
- * Implementation of App Widget functionality.
- */
 public class RecipeWidgetProvider extends AppWidgetProvider {
-
-    public static Recipe recipe;
 
     static void updateAppWidget(Context context,
                                 AppWidgetManager appWidgetManager,
-                                int appWidgetId, Recipe mrecipe) {
+                                int appWidgetId) {
 
         Intent intent = new Intent(context, RecipeListActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -65,16 +58,16 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     public static void updateAppWidgets(Context context,
                                         AppWidgetManager appWidgetManager,
-                                        int[] appWidgetIds, Recipe recipe) {
+                                        int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, recipe);
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, recipe);
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
 

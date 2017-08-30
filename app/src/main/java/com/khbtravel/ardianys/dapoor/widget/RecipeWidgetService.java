@@ -67,10 +67,8 @@ public class RecipeWidgetService extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_UPDATE_WIDGETS.equals(action)) {
-                Recipe recipe;
                 if (intent.hasExtra(RecipeListActivity.INTENT_PARCEL_RECIPE)) {
-                    recipe = intent.getParcelableExtra(RecipeListActivity.INTENT_PARCEL_RECIPE);
-                    handleActionUpdateWidgets(recipe);
+                    handleActionUpdateWidgets();
                 }
             }
         }
@@ -80,9 +78,9 @@ public class RecipeWidgetService extends IntentService {
     /**
      * Handle action UpdatePlantWidgets in the provided background thread
      */
-    private void handleActionUpdateWidgets(Recipe recipe) {
+    private void handleActionUpdateWidgets() {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
-        RecipeWidgetProvider.updateAppWidgets(this, appWidgetManager, appWidgetIds, recipe);
+        RecipeWidgetProvider.updateAppWidgets(this, appWidgetManager, appWidgetIds);
     }
 }
