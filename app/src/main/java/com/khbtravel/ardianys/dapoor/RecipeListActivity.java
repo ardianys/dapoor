@@ -26,6 +26,8 @@ import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -117,7 +119,12 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 mProgressBar.setVisibility(View.GONE);
-                Toast.makeText(RecipeListActivity.this, "error :(", Toast.LENGTH_SHORT).show();
+                CoordinatorLayout coordinatorLayout =
+                        (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Oups, sorry. Error occurred :(", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
                 mIdlingResource.setIdleState(true);
             }
         });
