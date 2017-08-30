@@ -1,6 +1,21 @@
+/*
+* Copyright (C) 2017 khbtravel.com
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*  	http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
 package com.khbtravel.ardianys.dapoor.fragment;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,7 +41,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.khbtravel.ardianys.dapoor.R;
 import com.khbtravel.ardianys.dapoor.RecipeListActivity;
-import com.khbtravel.ardianys.dapoor.RecipeStepActivity;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 import com.khbtravel.ardianys.dapoor.pojo.Step;
 import com.squareup.picasso.Picasso;
@@ -57,29 +71,29 @@ public class RecipeStepFragment extends Fragment {
     @BindView(R.id.iv_step_thumbnail)
     ImageView mImageViewThumbnail;
 
-    Recipe recipe;
-    Step step;
-    long videoSeekAt;
+    private Recipe mRecipe;
+    private Step mStep;
+    private long mVideoSeekAt;
+    private Boolean mTabletMode = false;
     public static final String VIDEO_SEEK_AT = "VIDEO_SEEK_AT";
     public static final String TAG = "RecipeStepFragment";
-    private Boolean mTabletMode = false;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         ButterKnife.bind(this, rootView);
 
-        Log.e(TAG, videoSeekAt + " onCreateView");
+        Log.e(TAG, mVideoSeekAt + " onCreateView");
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            recipe = bundle.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
-            step = bundle.getParcelable(RecipeListActivity.INTENT_PARCEL_STEP);
+            mRecipe = bundle.getParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE);
+            mStep = bundle.getParcelable(RecipeListActivity.INTENT_PARCEL_STEP);
             mTabletMode = bundle.getBoolean(RecipeListActivity.INTENT_BOOL_TABLET_MODE, false);
         }
 
         if (savedInstanceState != null) {
-            videoSeekAt = savedInstanceState.getLong(VIDEO_SEEK_AT, 0);
+            mVideoSeekAt = savedInstanceState.getLong(VIDEO_SEEK_AT, 0);
         }
 
         if (mTabletMode){
@@ -87,38 +101,38 @@ public class RecipeStepFragment extends Fragment {
             mButtonPrevious.setVisibility(View.GONE);
         } else {
             /**
-             * The step ID in API isn't using incremental value,
+             * The Step ID in API isn't using incremental value,
              * we should add new variable to store the position
              */
-            if (step.getPosition() < recipe.getSteps().size()-1){
-                Step stepNext = recipe.getSteps().get(step.getPosition()+1);
-                stepNext.setPosition(step.getPosition()+1);
+            if (mStep.getPosition() < mRecipe.getSteps().size()-1){
+                Step stepNext = mRecipe.getSteps().get(mStep.getPosition()+1);
+                stepNext.setPosition(mStep.getPosition()+1);
                 mButtonNext.setTag(stepNext);
             } else {
                 mButtonNext.setVisibility(View.GONE);
             }
-            if (step.getPosition() > 0){
-                Step stepPrevious = recipe.getSteps().get(step.getPosition()-1);
-                stepPrevious.setPosition(step.getPosition()-1);
+            if (mStep.getPosition() > 0){
+                Step stepPrevious = mRecipe.getSteps().get(mStep.getPosition()-1);
+                stepPrevious.setPosition(mStep.getPosition()-1);
                 mButtonPrevious.setTag(stepPrevious);
             } else {
                 mButtonPrevious.setVisibility(View.GONE);
             }
         }
 
-        mTvDescription.setText(step.getDescription());
+        mTvDescription.setText(mStep.getDescription());
 
-        if (step.getVideoURL().isEmpty()){
+        if (mStep.getVideoURL().isEmpty()){
             mPlayerView.setVisibility(View.GONE);
         } else {
-            initializePlayer(Uri.parse(step.getVideoURL()));
+            initializePlayer(Uri.parse(mStep.getVideoURL()));
         }
 
-        if (step.getThumbnailURL().isEmpty()){
+        if (mStep.getThumbnailURL().isEmpty()){
             mImageViewThumbnail.setVisibility(View.GONE);
         } else {
             Picasso.with(mImageViewThumbnail.getContext())
-                    .load(step.getThumbnailURL())
+                    .load(mStep.getThumbnailURL())
                     .into(mImageViewThumbnail);
         }
 
@@ -128,12 +142,12 @@ public class RecipeStepFragment extends Fragment {
 
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, recipe);
+        outState.putParcelable(RecipeListActivity.INTENT_PARCEL_RECIPE, mRecipe);
         if (mExoPlayer != null){
-            videoSeekAt = mExoPlayer.getCurrentPosition();
-            outState.putLong(VIDEO_SEEK_AT, videoSeekAt);
-        } else if (videoSeekAt > 0){
-            outState.putLong(VIDEO_SEEK_AT, videoSeekAt);
+            mVideoSeekAt = mExoPlayer.getCurrentPosition();
+            outState.putLong(VIDEO_SEEK_AT, mVideoSeekAt);
+        } else if (mVideoSeekAt > 0){
+            outState.putLong(VIDEO_SEEK_AT, mVideoSeekAt);
         }
     }
 
@@ -147,8 +161,8 @@ public class RecipeStepFragment extends Fragment {
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.seekTo(videoSeekAt);
-            Log.e(TAG, videoSeekAt + " seek at");
+            mExoPlayer.seekTo(mVideoSeekAt);
+            Log.e(TAG, mVideoSeekAt + " seek at");
             mExoPlayer.setPlayWhenReady(true);
         }
     }
@@ -156,7 +170,7 @@ public class RecipeStepFragment extends Fragment {
 
     private void releasePlayer() {
         if (mExoPlayer != null){
-            videoSeekAt = mExoPlayer.getCurrentPosition();
+            mVideoSeekAt = mExoPlayer.getCurrentPosition();
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
