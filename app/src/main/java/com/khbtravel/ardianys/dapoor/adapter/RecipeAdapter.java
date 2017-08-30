@@ -36,6 +36,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.text.TextUtils.isEmpty;
+
 /**
  * Created by ardianys on 8/25/17.
  */
@@ -64,7 +66,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         Recipe recipe = mRecipesData.get(position);
         holder.mRecipeTitleTv.setText(recipe.getName());
 
-        if (!recipe.getImage().isEmpty()){
+        if (!isEmpty(recipe.getImage())){
             Picasso.with(holder.mRecipeThumbIv.getContext())
                     .load(recipe.getImage())
                     .placeholder(R.drawable.menu)

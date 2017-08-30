@@ -17,10 +17,7 @@
 * August 2017
 */
 
-
-
 package com.khbtravel.ardianys.dapoor;
-
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
@@ -49,7 +46,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.not;
-
 
 @RunWith(AndroidJUnit4.class)
 public class IdlingResourceRecipeListActivityTest {

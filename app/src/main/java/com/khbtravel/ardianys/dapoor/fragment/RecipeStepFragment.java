@@ -48,6 +48,8 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.text.TextUtils.isEmpty;
+
 /**
  * Created by ardianys on 8/27/17.
  */
@@ -122,13 +124,13 @@ public class RecipeStepFragment extends Fragment {
 
         mTvDescription.setText(mStep.getDescription());
 
-        if (mStep.getVideoURL().isEmpty()){
+        if (isEmpty(mStep.getVideoURL())){
             mPlayerView.setVisibility(View.GONE);
         } else {
             initializePlayer(Uri.parse(mStep.getVideoURL()));
         }
 
-        if (mStep.getThumbnailURL().isEmpty()){
+        if (isEmpty(mStep.getThumbnailURL())){
             mImageViewThumbnail.setVisibility(View.GONE);
         } else {
             Picasso.with(mImageViewThumbnail.getContext())

@@ -38,6 +38,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.text.TextUtils.isEmpty;
 import static com.khbtravel.ardianys.dapoor.RecipeDetailActivity.RECYCLER_VIEW_STEP;
 import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_PARCEL_RECIPE;
 
@@ -88,7 +89,7 @@ public class RecipeDetailFragment extends Fragment {
         mTextViewIngredients.setText(mRecipe.buildIngredients());
         mStepAdapter.setSteps(mRecipe.getSteps());
 
-        if (mRecipe.getImage().isEmpty()){
+        if (isEmpty(mRecipe.getImage())){
             mImageViewRecipeThumb.setVisibility(View.GONE);
         } else {
             Picasso.with(mImageViewRecipeThumb.getContext())
