@@ -76,11 +76,6 @@ public class RecipeDetailActivity extends AppCompatActivity
 
         RecipeWidgetService.startActionUpdateWidgets(getApplicationContext(), mRecipe);
 
-
-        if(findViewById(R.id.recipe_step_container)!= null){
-            mTabletMode = true;
-        }
-
         if (isTablet()){
             if(savedInstanceState == null) {
                 RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
@@ -114,6 +109,7 @@ public class RecipeDetailActivity extends AppCompatActivity
     }
 
     public boolean isTablet() {
+        mTabletMode = getResources().getBoolean(R.bool.isTablet);
         return mTabletMode;
     }
 
