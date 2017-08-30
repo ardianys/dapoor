@@ -35,10 +35,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.khbtravel.ardianys.dapoor.pojo.Recipe;
-import com.khbtravel.ardianys.dapoor.adapter.RecipeAdapter;
-import com.khbtravel.ardianys.dapoor.utils.ApiClient;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,16 +44,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import com.khbtravel.ardianys.dapoor.pojo.Recipe;
+import com.khbtravel.ardianys.dapoor.adapter.RecipeAdapter;
+import com.khbtravel.ardianys.dapoor.utils.ApiClient;
 import com.khbtravel.ardianys.dapoor.IdlingResource.SimpleIdlingResource;
 
-
 public class RecipeListActivity extends AppCompatActivity  implements RecipeAdapter.ItemClickListener {
-
-    public static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
-    public static final String INTENT_PARCEL_RECIPE = "PARCEL_RECIPE";
-    public static final String INTENT_PARCEL_STEP = "PARCEL_STEP";
-    public static final String INTENT_BOOL_TABLET_MODE = "BOOL_TABLET_MODE";
-    public static final String RECYCLER_VIEW_RECIPE = "RECYCLER_VIEW_RECIPE";
 
     @BindView(R.id.rv_recipes)
     RecyclerView mRecyclerView;
@@ -65,10 +58,15 @@ public class RecipeListActivity extends AppCompatActivity  implements RecipeAdap
     @BindView(R.id.pb_loading_indicator)
     ProgressBar mProgressBar;
 
-    RecipeAdapter mRecipeAdapter;
-
     @Nullable
     private SimpleIdlingResource mIdlingResource;
+    private RecipeAdapter mRecipeAdapter;
+
+    public static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
+    public static final String INTENT_PARCEL_RECIPE = "PARCEL_RECIPE";
+    public static final String INTENT_PARCEL_STEP = "PARCEL_STEP";
+    public static final String INTENT_BOOL_TABLET_MODE = "BOOL_TABLET_MODE";
+    public static final String RECYCLER_VIEW_RECIPE = "RECYCLER_VIEW_RECIPE";
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

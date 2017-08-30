@@ -73,19 +73,19 @@ public class IdlingResourceRecipeListActivityTest {
         onView(allOf(withId(R.id.rv_recipes), isDisplayed()))
                 .perform(actionOnItemAtPosition(0, click()));
 
-        // assert recipe detail showed
+        // assert mRecipe detail showed
         onView(allOf(withId(R.id.tv_title_ingredients), withText("Ingredients"),isDisplayed()))
                 .check(matches(withText("Ingredients")));
 
-        // assert recipe ingredients shown
+        // assert mRecipe ingredients shown
         onView(allOf(withId(R.id.tv_recipe_ingredients), isDisplayed()))
                 .check(matches(isDisplayed()));
 
-        // click the first recipe's step
+        // click the first mRecipe's mStep
         onView(withId(R.id.rv_steps))
                 .perform(actionOnItemAtPosition(0, click()));
 
-        // assert the step's description is displayed correctly
+        // assert the mStep's description is displayed correctly
         onView(allOf(withId(R.id.tv_step_description), isDisplayed()))
                 .check(matches(isDisplayed()));
 
@@ -93,11 +93,11 @@ public class IdlingResourceRecipeListActivityTest {
         onView (withId(R.id.b_previous_step))
                 .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
-        // click the next step
+        // click the next mStep
         onView(allOf(withId(R.id.b_next_step), isDisplayed()))
                 .check(matches(isDisplayed()));
 
-        // assert the next step is displayed correctly
+        // assert the next mStep is displayed correctly
         onView(allOf(withId(R.id.tv_step_description), isDisplayed()))
                 .check(matches(isDisplayed()));
     }

@@ -31,13 +31,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.khbtravel.ardianys.dapoor.R;
-import com.khbtravel.ardianys.dapoor.RecipeListActivity;
 import com.khbtravel.ardianys.dapoor.adapter.StepAdapter;
-import com.khbtravel.ardianys.dapoor.pojo.Ingredient;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,23 +52,21 @@ public class RecipeDetailFragment extends Fragment {
     @BindView(R.id.iv_recipe_thumbnail)
     ImageView mImageViewRecipeThumb;
 
-    StepAdapter stepAdapter;
+    private StepAdapter mStepAdapter;
+    private Recipe mRecipe;
+    private MasterListInterface mListener;
 
-    Recipe recipe;
-    private MasterListInterface listener;
     public static final String TAG = "RecipeDetailFragment";
-
 
     public static RecipeDetailFragment newInstance(MasterListInterface listener) {
         RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-        recipeDetailFragment.listener = listener;
+        recipeDetailFragment.mListener = listener;
         return recipeDetailFragment;
     }
 
-    public void setListener(MasterListInterface masterListInterface){
-        listener = masterListInterface;
+    public void setListener(MasterListInterface listener){
+        mListener = listener;
     }
-
 
     @Nullable
     @Override
@@ -82,23 +76,23 @@ public class RecipeDetailFragment extends Fragment {
 
         mRecyclerViewSteps.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        stepAdapter = new StepAdapter(listener);
-        mRecyclerViewSteps.setAdapter(stepAdapter);
+        mStepAdapter = new StepAdapter(mListener);
+        mRecyclerViewSteps.setAdapter(mStepAdapter);
         mRecyclerViewSteps.setHasFixedSize(true);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            recipe = bundle.getParcelable(INTENT_PARCEL_RECIPE);
+            mRecipe = bundle.getParcelable(INTENT_PARCEL_RECIPE);
         }
 
-        mTextViewIngredients.setText(recipe.buildIngredients());
-        stepAdapter.setSteps(recipe.getSteps());
+        mTextViewIngredients.setText(mRecipe.buildIngredients());
+        mStepAdapter.setSteps(mRecipe.getSteps());
 
-        if (recipe.getImage().isEmpty()){
+        if (mRecipe.getImage().isEmpty()){
             mImageViewRecipeThumb.setVisibility(View.GONE);
         } else {
             Picasso.with(mImageViewRecipeThumb.getContext())
-                    .load(recipe.getImage())
+                    .load(mRecipe.getImage())
                     .into(mImageViewRecipeThumb);
         }
 
@@ -113,7 +107,7 @@ public class RecipeDetailFragment extends Fragment {
 
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(INTENT_PARCEL_RECIPE, recipe);
+        outState.putParcelable(INTENT_PARCEL_RECIPE, mRecipe);
         outState.putParcelable(RECYCLER_VIEW_STEP, mRecyclerViewSteps.getLayoutManager().onSaveInstanceState());
     }
 }

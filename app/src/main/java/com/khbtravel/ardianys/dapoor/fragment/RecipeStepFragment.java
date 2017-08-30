@@ -75,9 +75,9 @@ public class RecipeStepFragment extends Fragment {
     private Step mStep;
     private long mVideoSeekAt;
     private Boolean mTabletMode = false;
+
     public static final String VIDEO_SEEK_AT = "VIDEO_SEEK_AT";
     public static final String TAG = "RecipeStepFragment";
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);

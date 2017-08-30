@@ -19,15 +19,10 @@
 
 package com.khbtravel.ardianys.dapoor.pojo;
 
-/**
- * Created by ardianys on 8/25/17.
- */
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Step implements Parcelable
-{
-
+public class Step implements Parcelable {
     private Integer id;
     private Integer position = 0;
     private String shortDescription;

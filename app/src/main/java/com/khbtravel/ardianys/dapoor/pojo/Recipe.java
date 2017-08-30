@@ -19,19 +19,13 @@
 
 package com.khbtravel.ardianys.dapoor.pojo;
 
-/**
- * Created by ardianys on 8/25/17.
- */
-
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-public class Recipe implements Parcelable
-{
-
+public class Recipe implements Parcelable {
     private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
     private ArrayList<Step> steps = new ArrayList<Step>();
     private String id;

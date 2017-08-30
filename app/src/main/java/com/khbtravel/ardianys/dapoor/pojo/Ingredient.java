@@ -19,17 +19,10 @@
 
 package com.khbtravel.ardianys.dapoor.pojo;
 
-/**
- * Created by ardianys on 8/25/17.
- */
-
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
-public class Ingredient implements Parcelable
-{
-
+public class Ingredient implements Parcelable {
     private String quantity;
     private String measure;
     private String ingredient;
@@ -41,11 +34,9 @@ public class Ingredient implements Parcelable
     }
 
     public final static Parcelable.Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
-
         public Ingredient createFromParcel(Parcel in) {
             return new Ingredient(in);
         }
-
         public Ingredient[] newArray(int size) {
             return (new Ingredient[size]);
         }

@@ -35,10 +35,11 @@ import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_PARCEL_STE
 
 public class RecipeStepActivity extends AppCompatActivity {
 
-    Recipe recipe;
-    Step step;
-    Bundle mBundle;
+    private Recipe mRecipe;
+    private Step mStep;
+    private Bundle mBundle;
     private Boolean mTabletMode = false;
+
     public static final String TAG = "RecipeStepActivity";
 
     @Override
@@ -46,21 +47,19 @@ public class RecipeStepActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_step);
 
-        Log.e(TAG, 111111 + " onCreate");
-
         if (savedInstanceState != null) {
-            recipe = savedInstanceState.getParcelable(INTENT_PARCEL_RECIPE);
-            step = savedInstanceState.getParcelable(INTENT_PARCEL_STEP);
+            mRecipe = savedInstanceState.getParcelable(INTENT_PARCEL_RECIPE);
+            mStep = savedInstanceState.getParcelable(INTENT_PARCEL_STEP);
             mTabletMode = savedInstanceState.getBoolean(INTENT_BOOL_TABLET_MODE);
         }
 
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(INTENT_PARCEL_RECIPE)) {
-                recipe = intent.getParcelableExtra(INTENT_PARCEL_RECIPE);
+                mRecipe = intent.getParcelableExtra(INTENT_PARCEL_RECIPE);
             }
             if (intent.hasExtra(INTENT_PARCEL_STEP)) {
-                step = intent.getParcelableExtra(INTENT_PARCEL_STEP);
+                mStep = intent.getParcelableExtra(INTENT_PARCEL_STEP);
             }
             if (intent.hasExtra(INTENT_BOOL_TABLET_MODE)) {
                 mTabletMode = intent.getBooleanExtra(INTENT_BOOL_TABLET_MODE, false);
@@ -69,18 +68,18 @@ public class RecipeStepActivity extends AppCompatActivity {
 
         if(savedInstanceState == null) {
             RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
-            replaceFragment(step, recipeStepFragment);
+            replaceFragment(mStep, recipeStepFragment);
         } else {
             RecipeStepFragment recipeStepFragment = (RecipeStepFragment) getSupportFragmentManager().
                     findFragmentByTag(RecipeStepFragment.TAG);
-            replaceFragment(step, recipeStepFragment);
+            replaceFragment(mStep, recipeStepFragment);
         }
     }
 
     private void replaceFragment(Step step, RecipeStepFragment recipeStepFragment) {
         if (recipeStepFragment.getArguments() == null) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable(INTENT_PARCEL_RECIPE, recipe);
+            bundle.putParcelable(INTENT_PARCEL_RECIPE, mRecipe);
             bundle.putParcelable(INTENT_PARCEL_STEP, step);
             recipeStepFragment.setArguments(bundle);
         }
