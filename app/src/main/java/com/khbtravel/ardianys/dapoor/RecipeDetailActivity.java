@@ -1,30 +1,40 @@
+/*
+* Copyright (C) 2017 khbtravel.com
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*  	http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* twitter.com/ardianys
+* August 2017
+*/
+
 package com.khbtravel.ardianys.dapoor;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import com.khbtravel.ardianys.dapoor.fragment.MasterListInterface;
 import com.khbtravel.ardianys.dapoor.fragment.RecipeDetailFragment;
 import com.khbtravel.ardianys.dapoor.fragment.RecipeStepFragment;
-import com.khbtravel.ardianys.dapoor.pojo.Ingredient;
 import com.khbtravel.ardianys.dapoor.pojo.Recipe;
 import com.khbtravel.ardianys.dapoor.pojo.Step;
-import com.khbtravel.ardianys.dapoor.adapter.StepAdapter;
 import com.khbtravel.ardianys.dapoor.widget.RecipeWidgetService;
 
-import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_BOOL_TABLET_MODE;
 import static com.khbtravel.ardianys.dapoor.RecipeListActivity.INTENT_PARCEL_RECIPE;
