@@ -72,7 +72,7 @@ public class RecipeDetailActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(SHARED_PREFS_INGREDIENTS, mRecipe.buildIngredients());
-        editor.commit();
+        editor.apply();
 
         RecipeWidgetService.startActionUpdateWidgets(getApplicationContext(), mRecipe);
 
