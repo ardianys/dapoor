@@ -81,6 +81,15 @@ public class RecipeStepFragment extends Fragment {
     public static final String VIDEO_SEEK_AT = "VIDEO_SEEK_AT";
     public static final String TAG = "RecipeStepFragment";
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, mVideoSeekAt + " onResume");
+        if (!isEmpty(mStep.getVideoURL())){
+            initializePlayer(Uri.parse(mStep.getVideoURL()));
+        }
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         ButterKnife.bind(this, rootView);
@@ -164,8 +173,10 @@ public class RecipeStepFragment extends Fragment {
                     getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.seekTo(mVideoSeekAt);
-            Log.e(TAG, mVideoSeekAt + " seek at");
+            Log.e(TAG, mVideoSeekAt + " seek at (initialize)");
             mExoPlayer.setPlayWhenReady(true);
+        } else {
+            Log.e(TAG, mVideoSeekAt + " seek at (exo player is not null)");
         }
     }
 
@@ -194,6 +205,12 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        releasePlayer();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         releasePlayer();
     }
 }
