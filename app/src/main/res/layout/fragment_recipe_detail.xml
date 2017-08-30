@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/material_card_edge_margin"
                 android:padding="@dimen/layout_spacing"
                 android:textSize="@dimen/material_typography_dense_body_1_text_size"
                 tools:text="@string/ingredient_item" />
@@ -45,7 +45,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_steps"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"/>
+                android:layout_height="@dimen/recyclerview_height"/>
 
         </LinearLayout>
     </ScrollView>
